@@ -2,7 +2,7 @@
 import * as constants from "./constants"
 import { combineReducers } from "redux"
 
-const initialMoleState = { isActive: true }
+const initialMoleState = { isActive: false }
 function moleReducer(state = initialMoleState, action) {
     switch (action.type) {
         case constants.ACTIVATE_MOLE:
