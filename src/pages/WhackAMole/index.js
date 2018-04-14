@@ -45,6 +45,8 @@ const MoleView = styled.div`
     border-radius: 50%;
     width: 55px;
     height: 55px;
+    opacity: ${({ mole }) => mole.isActive ? 1 : 0};
+    transition: all .2s ease-in-out;
 `
 
 function mapStateToProps(state) {
