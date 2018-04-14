@@ -5,7 +5,7 @@ import { applyMiddleware, combineReducers, createStore, compose } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { Provider } from "react-redux"
 import createHistory from "history/createBrowserHistory"
-import { browserHistory, Route, Link } from "react-router-dom"
+import { browserHistory } from "react-router-dom"
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -15,9 +15,7 @@ import sagas from "./sagas"
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-import WhackAMole from './pages/WhackAMole'
-import Home from './pages/Home'
-import Settings from './pages/Settings'
+import App from "./app"
 
 const history = createHistory()
 
@@ -40,11 +38,7 @@ sagaMiddleware.run(sagas)
 ReactDOM.render(
     <Provider store={ store }>
         <ConnectedRouter history={ history }>
-            <div>
-                <Route exact path='/' component={ Home } />
-                <Route exact path='/whack-a-mole' component={ WhackAMole } />
-                <Route exact path='/settings' component={ Settings } />
-            </div>
+            <App />
         </ConnectedRouter>
     </Provider>
 , document.getElementById('root'))
