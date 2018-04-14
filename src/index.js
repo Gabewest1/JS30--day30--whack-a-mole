@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import WhackAMole from './pages/WhackAMole'
 import Home from './pages/Home'
+import Settings from './pages/Settings'
 
 import { applyMiddleware, combineReducers, createStore, compose } from "redux"
 import createSagaMiddleware from "redux-saga"
@@ -36,9 +37,12 @@ sagaMiddleware.run(sagas)
 
 ReactDOM.render(
     <Provider store={ store }>
-        <ConnectedRouter>
-            <Route path='/' component={ Home } />
-            <Route path='/WhackAMole' component={ WhackAMole } />
+        <ConnectedRouter history={ history }>
+            <div>
+                <Route path='/' component={ Home } />
+                <Route path='/whack-a-mole' component={ WhackAMole } />
+                <Route path='/settings' component={ Settings } />
+            </div>
         </ConnectedRouter>
     </Provider>
 , document.getElementById('root'))
