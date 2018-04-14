@@ -1,8 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import WhackAMole from './pages/WhackAMole'
-import Home from './pages/Home'
-import Settings from './pages/Settings'
 
 import { applyMiddleware, combineReducers, createStore, compose } from "redux"
 import createSagaMiddleware from "redux-saga"
@@ -10,12 +7,17 @@ import { Provider } from "react-redux"
 import createHistory from "history/createBrowserHistory"
 import { browserHistory, Route, Link } from "react-router-dom"
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducers from "./reducers"
 import sagas from "./sagas"
 
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
+
+import WhackAMole from './pages/WhackAMole'
+import Home from './pages/Home'
+import Settings from './pages/Settings'
 
 const history = createHistory()
 
@@ -27,9 +29,9 @@ const middlewares = [reduxRouterMiddleware, sagaMiddleware]
 
 
 //CREATE STORE
-let store = createStore(combineReducers(
-    {...reducers, router: routerReducer}),
-    applyMiddleware(...middlewares)
+let store = createStore(
+    combineReducers({...reducers, router: routerReducer}),
+    composeWithDevTools(applyMiddleware(...middlewares))
 )
 
 //START SAGAS
