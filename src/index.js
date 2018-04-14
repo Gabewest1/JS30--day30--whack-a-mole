@@ -39,9 +39,9 @@ ReactDOM.render(
     <Provider store={ store }>
         <ConnectedRouter history={ history }>
             <div>
-                <Route path='/' component={ Home } />
-                <Route path='/whack-a-mole' component={ WhackAMole } />
-                <Route path='/settings' component={ Settings } />
+                <Route exact path='/' component={ Home } />
+                <Route exact path='/whack-a-mole' component={ WhackAMole } />
+                <Route exact path='/settings' component={ Settings } />
             </div>
         </ConnectedRouter>
     </Provider>
