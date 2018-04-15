@@ -1,38 +1,38 @@
 import { actions, constants, selectors } from "./index"
 import { delay } from "redux-saga"
-import { call, cancel, fork, put, select, takeEvery } from "redux-saga/effects"
+import { call, cancel, fork, put, select, take, takeLatest } from "redux-saga/effects"
 
 export default function* () {
     yield [
         watchStartGame(),
-        watchMove()
     ]
 }
 
 function* watchStartGame() {
-    yield takeEvery(constants.START_GAME, startGame)
+    yield takeLatest(constants.START_GAME, startGame)
 }
 
-function* watchMove() {
-    yield takeEvery(constants.PERFORM_MOVE, performMove)
+function* watchMoves() {
+    while (true) {
+        const { payload } = yield take(constants.PERFORM_MOVE)
+
+        yield put(actions.deactivateMole(payload))
+        yield put(actions.increaseScore())
+    }
 }
 
 function* startGame(action) {
     const timerFork = yield fork(startTimer)
     const molesFork = yield fork(startMoles)
+    const watchMovesFork = yield fork(watchMoves)
 
     while (!(yield select(selectors.isGameOver))) {
-        
+        yield delay(1000)
     }
 
     yield cancel(timerFork)
     yield cancel(molesFork)
-}
-function* performMove(action) {
-    const { payload } = action
-
-    yield put(actions.deactivateMole(payload))
-    yield put(actions.increaseScore())
+    yield cancel(watchMovesFork)
 }
 
 function* startTimer() {
@@ -50,7 +50,14 @@ function* startMoles() {
         const mole = yield select(selectors.getUnactiveMole)
     
         if (mole >= 0) {
-            yield put(actions.activateMole(mole))
+            yield fork(startMole, mole)
         }
     }
+}
+
+function* startMole(mole) {
+    const timeInAir = Math.floor(Math.random() * 1000) + 200    
+    yield put(actions.activateMole(mole))
+    yield delay(timeInAir)
+    yield put(actions.deactivateMole(mole))
 }
