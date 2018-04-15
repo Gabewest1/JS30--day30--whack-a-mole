@@ -1,6 +1,6 @@
 import { actions, constants, selectors } from "./index"
 import { delay } from "redux-saga"
-import { call, put, select, takeEvery } from "redux-saga/effects"
+import { call, cancel, fork, put, select, takeEvery } from "redux-saga/effects"
 
 export default function* () {
     yield [
@@ -18,10 +18,15 @@ function* watchMove() {
 }
 
 function* startGame(action) {
+    const timerFork = yield fork(startTimer)
+    const molesFork = yield fork(startMoles)
+
     while (!(yield select(selectors.isGameOver))) {
-        yield delay(1000)
-        yield call(decreaseTimer)
+        
     }
+
+    yield cancel(timerFork)
+    yield cancel(molesFork)
 }
 function* performMove(action) {
     const { payload } = action
@@ -30,6 +35,22 @@ function* performMove(action) {
     yield put(actions.increaseScore())
 }
 
-function* decreaseTimer() {
-    yield put(actions.decreaseTimer())
+function* startTimer() {
+    while (true) {
+        yield delay(1000)
+        yield put(actions.decreaseTimer())
+    }
+}
+
+function* startMoles() {
+    while (true) {
+        const x = Math.floor(Math.random() * 1000) + 200
+        yield delay(x)
+
+        const mole = yield select(selectors.getUnactiveMole)
+    
+        if (mole >= 0) {
+            yield put(actions.activateMole(mole))
+        }
+    }
 }
