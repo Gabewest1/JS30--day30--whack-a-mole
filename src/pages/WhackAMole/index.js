@@ -25,7 +25,6 @@ class WhackAMole extends React.Component {
 
         return (
             <WhackAMoleView>
-                <TitleView>WhackAHoeeeee</TitleView>
                 <ScoreView>{ score }</ScoreView>
                 <TimeView>{ time }</TimeView>
 
@@ -39,8 +38,6 @@ class WhackAMole extends React.Component {
 }
 
 const WhackAMoleView = styled.div`
-    background: url(/background.png) no-repeat;
-    background-size: cover;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -69,7 +66,7 @@ const MoleView = ({ mole, ...props }) => (
 )
 const MolesView = styled.div`
     position: absolute;
-    bottom: 0;
+    bottom: 20%;
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-around;
