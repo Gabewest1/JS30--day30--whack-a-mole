@@ -5,4 +5,5 @@ body {
   background: url(/background.png) no-repeat;
   background-size: cover;
   min-height: 100vh;
+  font-family: 'Gugi', cursive;  
 }
