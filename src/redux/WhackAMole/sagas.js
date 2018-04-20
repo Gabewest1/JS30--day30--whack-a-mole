@@ -56,7 +56,7 @@ function* startMoles() {
 }
 
 function* startMole(mole) {
-    const timeInAir = Math.floor(Math.random() * 1000) + 200    
+    const timeInAir = Math.floor(Math.random() * 1000) + 400    
     yield put(actions.activateMole(mole))
     yield delay(timeInAir)
     yield put(actions.deactivateMole(mole))
