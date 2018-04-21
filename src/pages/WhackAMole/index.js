@@ -25,8 +25,10 @@ class WhackAMole extends React.Component {
 
         return (
             <WhackAMoleView>
-                <ScoreView>{ score }</ScoreView>
-                <TimeView>{ time }</TimeView>
+                <HUD>
+                    <ScoreView>Score: { score }</ScoreView>
+                    <TimeView>Time Remaining: { time }</TimeView>
+                </HUD>
 
                 <MolesView>
                     { Moles }
@@ -42,7 +44,6 @@ const WhackAMoleView = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 `
 const TimeView = styled.div``
 const ScoreView = styled.div``
@@ -64,6 +65,11 @@ const MoleView = ({ mole, ...props }) => (
         <Dirt src="dirt_sprite.png" />
     </div>
 )
+const HUD = styled.div`
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+`
 const MolesView = styled.div`
     position: absolute;
     bottom: 20%;
