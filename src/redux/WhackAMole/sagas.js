@@ -1,6 +1,8 @@
-import { actions, constants, selectors } from "./index"
 import { delay } from "redux-saga"
 import { call, cancel, fork, put, select, take, takeLatest } from "redux-saga/effects"
+import { actions, constants, selectors } from "./index"
+
+let baseTimeInAir
 
 export default function* () {
     yield [
@@ -26,6 +28,8 @@ function* startGame(action) {
     const molesFork = yield fork(startMoles)
     const watchMovesFork = yield fork(watchMoves)
 
+    baseTimeInAir = yield select(selectors.getBaseTimeInAir)
+
     while (!(yield select(selectors.isGameOver))) {
         yield delay(1000)
     }
@@ -35,7 +39,7 @@ function* startGame(action) {
     yield cancel(watchMovesFork)
 }
 
-function* startTimer() {
+function* startTimer() {    
     while (true) {
         yield delay(1000)
         yield put(actions.decreaseTimer())
@@ -43,8 +47,10 @@ function* startTimer() {
 }
 
 function* startMoles() {
+    const baseTimeBetweenJumpingMoles = yield select(selectors.getBaseTimeBetweenMolesJumping)
+    
     while (true) {
-        const x = Math.floor(Math.random() * 1000) + 200
+        const x = Math.floor(Math.random() * 1000) + baseTimeBetweenJumpingMoles
         yield delay(x)
 
         const mole = yield select(selectors.getUnactiveMole)
@@ -56,7 +62,8 @@ function* startMoles() {
 }
 
 function* startMole(mole) {
-    const timeInAir = Math.floor(Math.random() * 1000) + 400    
+    const timeInAir = Math.floor(Math.random() * 1000) + baseTimeInAir
+
     yield put(actions.activateMole(mole))
     yield delay(timeInAir)
     yield put(actions.deactivateMole(mole))
