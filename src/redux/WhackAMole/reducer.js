@@ -30,7 +30,7 @@ function molesReducer(state = initialMolesState, action) {
         case constants.DEACTIVATE_MOLE:
             return { ...state, [payload]: moleReducer(state[payload], action) }        
         case constants.RESET_GAME:
-            return initialMoleState
+            return initialMolesState
         default:
             return state
     }
