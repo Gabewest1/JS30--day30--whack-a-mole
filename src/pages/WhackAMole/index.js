@@ -35,6 +35,7 @@ class WhackAMole extends React.Component {
                 { isGameOver
                     && <PlayAgainButton onClick={ this._startGame }>Play Again</PlayAgainButton>
                 }
+
                 <MolesView>
                     { Moles }
                 </MolesView>
@@ -75,7 +76,7 @@ const Dirt = styled.img`
 `
 const MoleView = ({ mole, ...props }) => (
     <div { ...props } style={{ width: 150, position: "relative", overflow: "hidden" }}>
-        <Mole src="/mole_sprite.png" mole={ mole } />
+        <Mole src={ mole.isWhacked ? "/mole_sprite_active.png" : "/mole_sprite.png" } mole={ mole } />
         <Dirt src="dirt_sprite.png" />
     </div>
 )
