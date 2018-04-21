@@ -1,7 +1,8 @@
 import * as constants from "./constants"
+import { EASY, MEDIUM, HARD, VERY_HARD } from "../../constants"
 
 const initialSettingState = { 
-    difficulty: false,
+    difficulty: MEDIUM,
     audio: 1
 }
 
