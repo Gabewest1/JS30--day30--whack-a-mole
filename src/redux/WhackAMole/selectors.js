@@ -1,3 +1,6 @@
+import { selectors as settingSelectors } from "../Settings"
+import { EASY, MEDIUM, HARD, VERY_HARD } from "../../constants"
+
 export const getMoles = state => {
     const { moles } = state.whackAMole
     
@@ -25,4 +28,34 @@ export const getUnactiveMole = state => {
     }
 
     return mole
+}
+
+export const getBaseTimeInAir = state => {
+    const difficulty = settingSelectors.getDifficulty(state)
+
+    switch (difficulty) {
+        case EASY:
+            return 1000
+        case MEDIUM:
+            return 700
+        case HARD:
+            return 400
+        case VERY_HARD:
+            return 100
+    }
+}
+
+export const getBaseTimeBetweenMolesJumping = state => {
+    const difficulty = settingSelectors.getDifficulty(state)
+    
+    switch (difficulty) {
+        case EASY:
+            return 1200
+        case MEDIUM:
+            return 800
+        case HARD:
+            return 400
+        case VERY_HARD:
+            return 200
+    }
 }
