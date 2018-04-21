@@ -2,13 +2,15 @@
 import * as constants from "./constants"
 import { combineReducers } from "redux"
 
-const initialMoleState = { isActive: false }
+const initialMoleState = { isActive: false, isWhacked: false }
 function moleReducer(state = initialMoleState, action) {
     switch (action.type) {
         case constants.ACTIVATE_MOLE:
             return { ...state, isActive: true }
         case constants.DEACTIVATE_MOLE:
             return { ...state, isActive: false }
+        case constants.TOGGLE_WHACK:
+            return { ...state, isWhacked: !state.isWhacked }
         case constants.RESET_GAME:
             return initialMoleState
         default:
@@ -28,7 +30,9 @@ function molesReducer(state = initialMolesState, action) {
     switch (type) {
         case constants.ACTIVATE_MOLE:
         case constants.DEACTIVATE_MOLE:
-            return { ...state, [payload]: moleReducer(state[payload], action) }        
+            return { ...state, [payload]: moleReducer(state[payload], action) }  
+        case constants.TOGGLE_WHACK:
+            return { ...state, [payload]: moleReducer(state[payload], action) }      
         case constants.RESET_GAME:
             return initialMolesState
         default:
