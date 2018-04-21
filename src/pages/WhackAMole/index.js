@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
+import Button from "../../components/Button"
+
 import { 
     actions as whackAMoleActions,
     selectors as whackAMoleSelectors
@@ -10,10 +12,10 @@ import {
 
 class WhackAMole extends React.Component {
     componentDidMount() {
-        this.props.startGame()
+        this._startGame()
     }
     render() {
-        const { performMove, score, time, moles } = this.props
+        const { performMove, score, time, moles, isGameOver } = this.props
 
         const Moles = moles.map((mole, i) => (
             <MoleView 
@@ -30,12 +32,20 @@ class WhackAMole extends React.Component {
                     <TimeView>Time Remaining: { time }</TimeView>
                 </HUD>
 
+                { isGameOver
+                    && <PlayAgainButton onClick={ this._startGame }>Play Again</PlayAgainButton>
+                }
                 <MolesView>
                     { Moles }
                 </MolesView>
 
             </WhackAMoleView>
         )
+    }
+
+    _startGame = () => {
+        this.props.resetGame()
+        this.props.startGame()
     }
 }
 
@@ -52,6 +62,10 @@ const Mole = styled.img`
     transform: translateY(${({ mole }) => mole.isActive ? "0%" : "130%"});
     transition: all .2s ease-in-out;
     max-width: 100%;
+`
+const PlayAgainButton = styled(Button)`
+    position: absolute;
+    top: 25%;
 `
 const Dirt = styled.img`
     max-width: 100%;
@@ -90,7 +104,8 @@ function mapStateToProps(state) {
     return {
         moles: whackAMoleSelectors.getMoles(state),
         time: whackAMoleSelectors.getTime(state),
-        score: whackAMoleSelectors.getScore(state)
+        score: whackAMoleSelectors.getScore(state),
+        isGameOver: whackAMoleSelectors.isGameOver(state)
     }
 }
 
