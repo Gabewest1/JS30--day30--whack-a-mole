@@ -2,6 +2,8 @@ import { delay } from "redux-saga"
 import { call, cancel, fork, put, select, take, takeLatest } from "redux-saga/effects"
 import { actions, constants, selectors } from "./index"
 
+const ugandaKnucklesAudio = new Audio("/uganda.mp3")
+
 let baseTimeInAir
 
 export default function* () {
@@ -17,6 +19,8 @@ function* watchStartGame() {
 function* watchMoves() {
     while (true) {
         const { payload } = yield take(constants.PERFORM_MOVE)
+
+        ugandaKnucklesAudio.play()
 
         yield put(actions.deactivateMole(payload))
         yield put(actions.increaseScore())
@@ -54,7 +58,7 @@ function* startMoles() {
         yield delay(x)
 
         const mole = yield select(selectors.getUnactiveMole)
-    
+
         if (mole >= 0) {
             yield fork(startMole, mole)
         }
