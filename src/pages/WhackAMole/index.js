@@ -19,7 +19,7 @@ class WhackAMole extends React.Component {
             <MoleView 
                 key={ i }
                 mole={ mole }
-                onClick={ mole.isActive ? () => performMove(i): null } 
+                onMouseDown={ mole.isActive ? () => performMove(i): null } 
             />
         ))
 
@@ -69,6 +69,8 @@ const HUD = styled.div`
     display: flex;
     justify-content: space-around;
     width: 80%;
+    font-size: 24px;
+    margin-top: 1em;
 `
 const MolesView = styled.div`
     position: absolute;
