@@ -21,10 +21,16 @@ function* watchMoves() {
         const { payload } = yield take(constants.PERFORM_MOVE)
 
         ugandaKnucklesAudio.play()
-
+        yield fork(whackMole, payload)
         yield put(actions.deactivateMole(payload))
         yield put(actions.increaseScore())
     }
+}
+
+function* whackMole(mole) {
+    yield put(actions.whackAMole(mole))
+    yield delay(200)
+    yield put(actions.whackAMole(mole))
 }
 
 function* startGame(action) {
