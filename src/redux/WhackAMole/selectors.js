@@ -18,7 +18,7 @@ export const getUnactiveMole = state => {
     while (mole < 0 && maxTries > 0) {
         let maxIndex = moles.length
         let index = Math.floor(Math.random() * maxIndex)
-        let isUnactiveMole = moles[index].isActive === false
+        let isUnactiveMole = moles[index].isActive === false && moles[index].isWhacked === false
 
         if (isUnactiveMole) {
             mole = index
